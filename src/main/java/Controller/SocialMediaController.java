@@ -1,5 +1,7 @@
 package Controller;
 
+import org.eclipse.jetty.http.HttpTester.Message;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -16,10 +18,11 @@ import io.javalin.http.Context;
  */
 public class SocialMediaController {
     AccountService accountService;
+    MessageService messageService;
     // Controller constructor
     public SocialMediaController(){
         accountService = new AccountService();
-        // messageService = new MessageService(); 
+        messageService = new MessageService(); 
     }
 
    
@@ -79,7 +82,18 @@ public class SocialMediaController {
         }
     }
 
-    private void createMessageHandler(Context ctx){
+    private void createMessageHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Model.Message message = mapper.readValue(ctx.body(), Model.Message.class);
+        Model.Message createMessage = messageService.addMessage(message);
+
+        if(createMessage == null){
+            ctx.status(400);
+        }
+        else{
+            ctx.json(mapper.writeValueAsString(createMessage));
+            ctx.status(200);
+        }
         
     }
 
