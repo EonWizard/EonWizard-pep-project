@@ -15,11 +15,10 @@ public class AccountService {
     }
 
     public Account addAccount(Account account){
-        if(account.getUsername().isEmpty() || account.getPassword().length() < 4 || accountDAO.accountName(account.getUsername()).equals(account.getUsername())){
+        if(account.getUsername().isEmpty() || account.getPassword().length() < 4 || accountDAO.accountExist(account.getUsername())){
             return null;
         }
-        else{
-            return accountDAO.accountLogin(account);
-        }
+        Account newAccount = new Account(0, account.getUsername(), account.getPassword());
+        return accountDAO.addAccount(newAccount);
     }
 }

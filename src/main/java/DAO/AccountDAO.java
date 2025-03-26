@@ -56,23 +56,20 @@ public class AccountDAO {
     }
 
     // gets the name of account to check for existence in database
-    public Account accountName(String account){
+    public boolean accountExist(String username){
         Connection connection = ConnectionUtil.getConnection();
         try{
             String sql = "SELECT * FROM account WHERE username = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, account);
+            statement.setString(1, username);
 
             ResultSet set = statement.executeQuery();
-            while(set.next()){
-                Account accountName = new Account(set.getInt("account_id"), set.getString("username"), set.getString("password"));
-                return accountName;
-            }
+            return set.next();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return false;
     }
 }
