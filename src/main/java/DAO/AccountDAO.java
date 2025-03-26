@@ -34,18 +34,19 @@ public class AccountDAO {
     }
 
     // login for account
-    public Account accountLogin(Account account){
+    public Account accountLogin(String username, String password){
         Connection connection = ConnectionUtil.getConnection();
         try{
-            String sql = "SELECT * FROM account WHERE username = ?";
+            String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, account.getUsername());
+            statement.setString(1, username);
+            statement.setString(2, password);
 
             ResultSet set = statement.executeQuery();
 
             while(set.next()){
-                Account accountLogin = new Account(set.getString("username"), set.getString("password"));
+                Account accountLogin = new Account(set.getInt("account_id"), set.getString("username"), set.getString("password"));
                 return accountLogin;
             }
         }
@@ -56,7 +57,7 @@ public class AccountDAO {
     }
 
     // gets the name of account to check for existence in database
-    public boolean accountExist(String username){
+    public boolean accountExist(String username, String password){
         Connection connection = ConnectionUtil.getConnection();
         try{
             String sql = "SELECT * FROM account WHERE username = ?";
