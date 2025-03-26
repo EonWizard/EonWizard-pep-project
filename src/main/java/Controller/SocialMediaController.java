@@ -17,7 +17,14 @@ public class SocialMediaController {
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.get("example-endpoint", this::exampleHandler);
-
+        app.post("/register", this::userRegistrationHandler);
+        app.post("/login", this::loginHandler);
+        app.post("/messages", this::createMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessageHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
+        app.get("/accounts/{account_id}/messages", this::messagesByAccountHandler);
         return app;
     }
 
@@ -27,6 +34,38 @@ public class SocialMediaController {
      */
     private void exampleHandler(Context context) {
         context.json("sample text");
+    }
+
+    private void userRegistrationHandler(Context ctx){
+        
+    }
+
+    private void loginHandler(Context ctx){
+        
+    }
+
+    private void createMessageHandler(Context ctx){
+        
+    }
+
+    private void getAllMessagesHandler(Context ctx){
+        
+    }
+
+    private void getMessageHandler(Context ctx){
+        
+    }
+
+    private void deleteMessageHandler(Context ctx){
+        
+    }
+
+    private void updateMessageHandler(Context ctx){
+        
+    }
+
+    private void messagesByAccountHandler(Context ctx){
+        
     }
 
 
