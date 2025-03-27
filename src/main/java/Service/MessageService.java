@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.MessageDAO;
 import Model.Message;
 
@@ -17,10 +19,54 @@ public class MessageService {
 
     // create a new message
     public Message addMessage(Message message){
-        if(message.getMessage_text().isBlank() || message.getMessage_text().length() > 255 || !messageDAO.postedByExists(message)){
+        if(message.getMessage_text().isBlank() || message.getMessage_text().length() > 255 || !messageDAO.postedByExists(message.getPosted_by())){
             return null;
         }
-        return messageDAO.addMessage(message);
+        
+       Message addMessage = messageDAO.addMessage(message);
+       if(addMessage == null){
+        System.out.println("Fail to add message");
+       }
+       else{
+        System.out.println("Success");
+       }
+       return addMessage;
     }
+
+    // get all messages
+    public List<Message> getAllMessages(){
+        return messageDAO.getAllMessages();
+    }
+
+    // get a message by id
+    public Message getMessageById(int id){
+        return messageDAO.getMessageById(id);
+    }
+
+    // delete a message by id
+    public Message deleteMessageById(int id){
+        Message message = messageDAO.getMessageById(id);
+        if(message != null){
+            messageDAO.deleteMessageById(id);
+            return message;
+        }
+        else{
+            return null;
+        }
+    }
+
+    // update a message by id 
+    public Message updateMessageById(int id, Message message){
+        if(messageDAO.getMessageById(id) == null || message.message_text.isBlank()|| message.message_text.length() > 255){
+            return null;
+        }
+        else{
+            messageDAO.updateMessageById(id, message);
+        }
+        return messageDAO.getMessageById(id);
+    }
+    
+        
+        
     
 }
