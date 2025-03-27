@@ -132,16 +132,19 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         Model.Message message = mapper.readValue(ctx.body(), Model.Message.class);
         int id = Integer.parseInt(ctx.pathParam("message_id"));
-        Model.Message updateMessage = messageService.updateMessageById(id, message);
-        System.out.println(updateMessage);
+        String message_text = message.getMessage_text();
+
+        Model.Message updateMessage = messageService.updateMessageById(id, message_text);
 
         if(updateMessage == null){
-            ctx.status(200);
+            ctx.status(400);
         }
         else{
             ctx.json(mapper.writeValueAsString(updateMessage));
             ctx.status(200);
         }
+        
+
     }
 
     private void messagesByAccountHandler(Context ctx){

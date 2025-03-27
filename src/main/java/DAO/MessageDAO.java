@@ -119,22 +119,23 @@ public class MessageDAO {
     }
 
     // update message by id
-    public void updateMessageById(int id, Message message){
+    public boolean updateMessageById(int id, String message_text){
         Connection connection = ConnectionUtil.getConnection();
         try{
-            String sql = "UPDATE message SET posted_by = ?, message_text = ? , time_posted_epoch = ? WHERE message_id = ?";
+            String sql = "UPDATE message SET  message_text = ? WHERE message_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setInt(1, message.getPosted_by());
-            statement.setString(2, message.getMessage_text());
-            statement.setLong(3, message.getTime_posted_epoch());
-            statement.setInt(4, id);
+            statement.setString(1, message_text);
+            statement.setInt(2, id);
+            
 
-            statement.executeUpdate();
+            int updated = statement.executeUpdate();
+            return updated > 0;
 
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
+        return false;
     }
 }
