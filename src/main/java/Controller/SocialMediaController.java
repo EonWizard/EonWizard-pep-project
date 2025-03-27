@@ -148,7 +148,9 @@ public class SocialMediaController {
     }
 
     private void messagesByAccountHandler(Context ctx){
-        
+        int id = Integer.parseInt(ctx.pathParam("account_id"));
+        ctx.json(messageService.getAllMessagesByAccount(id));
+        ctx.status(200);
     }
 
 

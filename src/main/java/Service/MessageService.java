@@ -63,6 +63,11 @@ public class MessageService {
         boolean updated = messageDAO.updateMessageById(id, messageText);
         return updated ? messageDAO.getMessageById(id) : null;
     }
+
+    // get all messages for an account
+    public List<Message> getAllMessagesByAccount(int account_id){
+        return messageDAO.getAllMessagesByAccount(account_id);
+    }
     
         
         
